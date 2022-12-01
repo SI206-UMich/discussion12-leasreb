@@ -3,6 +3,7 @@ import sqlite3
 import json
 import os
 import matplotlib.pyplot as plt
+#lea srebrenik
 # starter code
 
 # Create Database
@@ -16,6 +17,16 @@ def setUpDatabase(db_name):
 # TASK 1
 # CREATE TABLE FOR EMPLOYEE INFORMATION IN DATABASE AND ADD INFORMATION
 def create_employee_table(cur, conn):
+    conn = sqlite3.connect('employees.db')
+    cur = conn.cursor()
+
+    employee_file = json.loads("employee.json")
+    print(employee_file)
+
+    cur.execute("DROP TABLE IF EXISTS Employee")
+    cur.execute("CREATE TABLE Employee (employee_id INTEGER,first_name TEXT, last_name TEXT, hire_date TEXT, job_id INTEGER, salary INTEGER")
+
+    conn.close()
     pass
 
 # ADD EMPLOYEE'S INFORMTION TO THE TABLE
@@ -54,14 +65,14 @@ class TestDiscussion12(unittest.TestCase):
         count = len(self.cur.fetchall())
         self.assertEqual(count, 13)
 
-    def test_job_and_hire_date(self):
-        self.assertEqual('President', job_and_hire_date(self.cur, self.conn))
+    # def test_job_and_hire_date(self):
+    #     self.assertEqual('President', job_and_hire_date(self.cur, self.conn))
 
-    def test_problematic_salary(self):
-        sal_list = problematic_salary(self.cur, self.conn)
-        self.assertIsInstance(sal_list, list)
-        self.assertEqual(sal_list[0], ('Valli', 'Pataballa'))
-        self.assertEqual(len(sal_list), 4)
+    # def test_problematic_salary(self):
+    #     sal_list = problematic_salary(self.cur, self.conn)
+    #     self.assertIsInstance(sal_list, list)
+    #     self.assertEqual(sal_list[0], ('Valli', 'Pataballa'))
+    #     self.assertEqual(len(sal_list), 4)
 
 
 def main():
@@ -69,12 +80,12 @@ def main():
     cur, conn = setUpDatabase('HR.db')
     create_employee_table(cur, conn)
 
-    add_employee("employee.json",cur, conn)
+    # add_employee("employee.json",cur, conn)
 
-    job_and_hire_date(cur, conn)
+    # job_and_hire_date(cur, conn)
 
-    wrong_salary = (problematic_salary(cur, conn))
-    print(wrong_salary)
+    # wrong_salary = (problematic_salary(cur, conn))
+    # print(wrong_salary)
 
 if __name__ == "__main__":
     main()
